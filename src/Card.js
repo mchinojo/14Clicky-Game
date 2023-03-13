@@ -1,11 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import "./Card.css";
 
 function Card(props) {
-  const [isClicked, setIsClicked] = useState(false);
-
-  console.log(isClicked, props.title);
-
   // Defining the structure and content of the Card component as a card.
   return (
     <div className="col">
@@ -16,8 +12,15 @@ function Card(props) {
           className="card-img-top rounded-0"
           alt={props.title}
           onClick={() => {
-            setIsClicked(true);
-            props.shuffle();
+            if (props.idArray.includes(props.id)) {
+              console.log("PERDISTE");
+              props.reset();
+            } else {
+              props.shuffle();
+              const newArray = [...props.idArray, props.id];
+              props.setIdArray(newArray);
+              console.log(newArray);
+            }
           }}
         ></img>
       </div>

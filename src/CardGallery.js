@@ -4,12 +4,8 @@ import cardData from "./data/card-data.json";
 import "./CardGallery.css";
 
 function CardGallery() {
-  const [cardShuffle, SetCardShuffle] = useState(cardData);
-  console.log(cardShuffle);
-
-  // Rendering the CardGallery component,
-  // which displays a list of Project components
-  // with project data from project-data.json.
+  const [cardShuffle, setCardShuffle] = useState(cardData);
+  const [idArray, setIdArray] = useState([]);
 
   shuffle(cardData);
 
@@ -24,9 +20,13 @@ function CardGallery() {
         {cardShuffle.map((card) => (
           <Card
             key={card.id}
+            id={card.id}
             image={card.image}
             title={card.title}
-            shuffle={() => SetCardShuffle(shuffle(cardData))}
+            shuffle={() => setCardShuffle(shuffle(cardData))}
+            idArray={idArray}
+            setIdArray={setIdArray}
+            reset={() => emptyArray()}
           ></Card>
         ))}
       </div>
@@ -53,5 +53,9 @@ function shuffle(array) {
 
   return [...array];
 }
+
+const emptyArray = () => {
+  console.log("reset");
+};
 
 export default CardGallery;
