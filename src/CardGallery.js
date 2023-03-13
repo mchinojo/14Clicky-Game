@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Card from "./Card";
 import cardData from "./data/card-data.json";
 import "./CardGallery.css";
@@ -6,6 +6,19 @@ import "./CardGallery.css";
 function CardGallery() {
   const [cardShuffle, setCardShuffle] = useState(cardData);
   const [idArray, setIdArray] = useState([]);
+
+  useEffect(() => {
+    setCardShuffle(shuffle(cardData));
+
+    for (let index = 0; index < idArray.length; index++) {
+      const element = idArray[index];
+
+      if (idArray.indexOf(element) !== index) {
+        console.log("PERDISTE");
+        setIdArray([]);
+      }
+    }
+  }, [idArray]);
 
   shuffle(cardData);
 
@@ -23,10 +36,8 @@ function CardGallery() {
             id={card.id}
             image={card.image}
             title={card.title}
-            shuffle={() => setCardShuffle(shuffle(cardData))}
             idArray={idArray}
             setIdArray={setIdArray}
-            reset={() => emptyArray()}
           ></Card>
         ))}
       </div>
@@ -53,9 +64,5 @@ function shuffle(array) {
 
   return [...array];
 }
-
-const emptyArray = () => {
-  console.log("reset");
-};
 
 export default CardGallery;

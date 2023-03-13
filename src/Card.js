@@ -12,15 +12,9 @@ function Card(props) {
           className="card-img-top rounded-0"
           alt={props.title}
           onClick={() => {
-            if (props.idArray.includes(props.id)) {
-              console.log("PERDISTE");
-              props.reset();
-            } else {
-              props.shuffle();
-              const newArray = [...props.idArray, props.id];
-              props.setIdArray(newArray);
-              console.log(newArray);
-            }
+            const newArray = [...props.idArray, props.id];
+            props.setIdArray(newArray);
+            console.log(newArray);
           }}
         ></img>
       </div>
