@@ -14,6 +14,7 @@ function Card(props) {
           onClick={() => {
             const newArray = [...props.idArray, props.id];
             props.setIdArray(newArray);
+            props.setCount(props.count + 1);
             console.log(newArray);
           }}
         ></img>

@@ -3,22 +3,34 @@ import Card from "./Card";
 import cardData from "./data/card-data.json";
 import "./CardGallery.css";
 
-function CardGallery() {
+const hasRepeated = (array) => {
+  for (let index = 0; index < array.length; index++) {
+    const element = array[index];
+
+    if (array.indexOf(element) !== index) {
+      return true;
+    }
+  }
+  return false;
+};
+
+function CardGallery(props) {
   const [cardShuffle, setCardShuffle] = useState(cardData);
   const [idArray, setIdArray] = useState([]);
 
   useEffect(() => {
     setCardShuffle(shuffle(cardData));
-
-    for (let index = 0; index < idArray.length; index++) {
-      const element = idArray[index];
-
-      if (idArray.indexOf(element) !== index) {
-        console.log("PERDISTE");
-        setIdArray([]);
+    if (hasRepeated(idArray)) {
+      console.log("PERDISTE");
+      setIdArray([]);
+      props.setCount(0);
+    } else {
+      if (props.count > props.topScore) {
+        console.log("hola");
+        props.setTopScore(props.count);
       }
     }
-  }, [idArray]);
+  }, [idArray, props]);
 
   shuffle(cardData);
 
@@ -38,6 +50,8 @@ function CardGallery() {
             title={card.title}
             idArray={idArray}
             setIdArray={setIdArray}
+            count={props.count}
+            setCount={props.setCount}
           ></Card>
         ))}
       </div>
