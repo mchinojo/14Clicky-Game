@@ -17,16 +17,21 @@ const hasRepeated = (array) => {
 function CardGallery(props) {
   const [cardShuffle, setCardShuffle] = useState(cardData);
   const [idArray, setIdArray] = useState([]);
+  // const [message, setMessage] = useState(
+  //   "Click on an image to earn points, but don't click on any more than once!"
+  // );
 
   useEffect(() => {
     setCardShuffle(shuffle(cardData));
     if (hasRepeated(idArray)) {
-      console.log("PERDISTE");
+      props.setMessage("You guessed incorrectly.");
       setIdArray([]);
       props.setCount(0);
     } else {
+      if (props.count > 0) {
+        props.setMessage("Keep going...");
+      }
       if (props.count > props.topScore) {
-        console.log("hola");
         props.setTopScore(props.count);
       }
     }
@@ -36,24 +41,31 @@ function CardGallery(props) {
 
   return (
     // Creating a div to hold the Project components.
-    <div className="container px-4 py-5 my-5">
-      <h1 className="display-4 mb-5 text-center">
-        Click on an image to earn points, but don't click on any more than once!
-      </h1>
-      <div className="row row-cols-1 row-cols-md-3 g-4">
-        {/* Project data is mapped over to create a list of Project components */}
-        {cardShuffle.map((card) => (
-          <Card
-            key={card.id}
-            id={card.id}
-            image={card.image}
-            title={card.title}
-            idArray={idArray}
-            setIdArray={setIdArray}
-            count={props.count}
-            setCount={props.setCount}
-          ></Card>
-        ))}
+    <div className="py-5">
+      <div className="myJumbotron p-5 my-5">
+        <div className="container-fluid">
+          <h1 className="display-5 text-center">
+            Click on an image to earn points, but don't click on any more than
+            once!
+          </h1>
+        </div>
+      </div>
+      <div className="container">
+        <div className="row row-cols-1 row-cols-md-3 g-4">
+          {/* Project data is mapped over to create a list of Project components */}
+          {cardShuffle.map((card) => (
+            <Card
+              key={card.id}
+              id={card.id}
+              image={card.image}
+              title={card.title}
+              idArray={idArray}
+              setIdArray={setIdArray}
+              count={props.count}
+              setCount={props.setCount}
+            ></Card>
+          ))}
+        </div>
       </div>
     </div>
   );
